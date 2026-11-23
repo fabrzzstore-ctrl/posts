@@ -5,7 +5,7 @@ Começámos no Status do WhatsApp e hoje publicamos seis edições por dia no Ca
 ## O que encontra aqui
 
 - **Notícias**: ataques informáticos, burlas, falhas de segurança, novidades da tecnologia, gaming, pagamentos digitais e emprego em informática, em Angola e no mundo.
-- **Fichas das falhas**: as falhas de segurança mais graves, explicadas numa ficha com o essencial.
+- **Fichas das vulnerabilidades**: as falhas de segurança mais graves, explicadas numa ficha com o essencial.
 - **Dicas de segurança**: passos simples para proteger o telemóvel, as contas e o dinheiro.
 
 ## Como trabalhamos
