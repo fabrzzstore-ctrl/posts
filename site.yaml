@@ -3,9 +3,9 @@ nome: noticias.semwhere
 descricao: Cibersegurança, tecnologia e vida digital explicadas para Angola.
 # Endereço público do site (mudar depois de criar o repositório no GitHub).
 # Ex.: https://utilizador.github.io/noticias-semwhere  ou  https://noticiassemwhere.com
-url: https://fabrzzstore-ctrl.github.io/noticias-semwhere
+url: https://noticias-semwhere.github.io/posts
 # Caminho base: "/" se o site estiver na raiz do domínio; "/nome-do-repositorio/" num site de projecto.
-caminho_base: /noticias-semwhere/
+caminho_base: /posts/
 # Domínio próprio (opcional). Deixar vazio enquanto não houver.
 dominio: ""
 # Link de convite do Canal do WhatsApp (deixar vazio para esconder os botões).
