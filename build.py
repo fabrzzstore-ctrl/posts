@@ -7,6 +7,7 @@ Uso:
 Conteúdo em content/:
     noticias/AAAA-MM-DD-slug.md   artigos (front matter YAML + texto em Markdown)
     fichas/AAAA-MM-DD-slug.md     fichas das vulnerabilidades (CVE)
+    ataques.yaml                  ataques em curso (página /ataques/)
     dicas/AAAA-MM-DD-slug.md      dicas de segurança
     sobre.md                      página "Sobre"
 """
@@ -98,6 +99,102 @@ def preparar_noticia(n):
     n["url"] = f"noticias/{n['slug']}/"
     n["caixa"] = n.get("caixa", "O QUE FAZER")
     return n
+
+
+ESTADOS = {  # estado -> (nome visível, ordem na página)
+    "em-curso": ("Em curso", 0),
+    "recuperacao": ("Em recuperação", 1),
+    "resolvido": ("Resolvido", 2),
+}
+CONFIRMADO = {"sim": "Sim", "parcialmente": "Parcialmente", "nao": "Não"}
+REGIOES = ("africa", "europa", "americas", "asia", "medio-oriente", "oceania")
+DIAS_RESOLVIDOS = 30  # dias que um ataque resolvido fica na página
+
+
+def hoje_luanda():
+    return dt.datetime.now(dt.timezone(dt.timedelta(hours=1))).date()
+
+
+def como_data(v, campo, aid):
+    if v in (None, ""):
+        return None
+    if isinstance(v, dt.datetime):
+        return v.date()
+    if isinstance(v, dt.date):
+        return v
+    try:
+        return dt.date.fromisoformat(str(v))
+    except ValueError:
+        raise SystemExit(f"ataques.yaml, {aid}: data inválida em {campo}: {v!r}")
+
+
+def ler_ataques(noticias):
+    """Lê content/ataques.yaml e calcula a duração, o estado visível e o resumo da página."""
+    f = CONTENT / "ataques.yaml"
+    if not f.exists():
+        return {"ataques": [], "actualizado": None, "resumo": None}
+    dados = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
+    hoje = hoje_luanda()
+    por_slug = {n["slug"]: n for n in noticias}
+    lista, vistos = [], set()
+    for a in dados.get("ataques") or []:
+        aid = a.get("id") or "?"
+        for campo in ("id", "empresa", "pais", "estado", "detectado", "resumo"):
+            if not a.get(campo):
+                raise SystemExit(f"ataques.yaml, {aid}: falta o campo {campo}")
+        if aid in vistos:
+            raise SystemExit(f"ataques.yaml: id repetido {aid}")
+        vistos.add(aid)
+        if a["estado"] not in ESTADOS:
+            raise SystemExit(f"ataques.yaml, {aid}: estado inválido {a['estado']!r}")
+        if a.get("regiao") and a["regiao"] not in REGIOES:
+            raise SystemExit(f"ataques.yaml, {aid}: região inválida {a['regiao']!r}")
+        detectado = como_data(a["detectado"], "detectado", aid)
+        resolvido = como_data(a.get("resolvido"), "resolvido", aid)
+        if a["estado"] == "resolvido" and not resolvido:
+            raise SystemExit(f"ataques.yaml, {aid}: um ataque resolvido precisa da data em resolvido")
+        if resolvido and (hoje - resolvido).days > DIAS_RESOLVIDOS:
+            continue
+        dias = max(1, ((resolvido or hoje) - detectado).days + 1)
+        nome, ordem = ESTADOS[a["estado"]]
+        a["dias"], a["ordem"] = dias, ordem
+        a["duracao"] = "1 dia" if dias == 1 else f"{dias} dias"
+        a["estado_nome"] = nome
+        a["estado_rotulo"] = f"{nome} · {a['duracao']}" if a["estado"] == "resolvido" else f"{nome} · dia {dias}"
+        a["detectado_curto"] = detectado.strftime("%d.%m")
+        a["detectado_iso"] = detectado.isoformat()
+        a["confirmado_txt"] = CONFIRMADO.get(str(a.get("confirmado", "")).lower(), "Por confirmar")
+        a["autores"] = a.get("autores") or "Desconhecidos"
+        artigos = []
+        for s in a.get("noticias") or []:
+            if s in por_slug:
+                artigos.append(por_slug[s])
+            else:
+                print(f"Aviso: ataques.yaml, {aid}: a notícia {s!r} não existe no blog")
+        artigos.sort(key=lambda n: n["data"], reverse=True)
+        a["artigos"] = artigos
+        for fonte in a.get("fontes") or []:
+            fonte["dominio"] = dominio(fonte["url"])
+        filtros = [a["estado"]]
+        if a.get("regiao") == "africa" or a.get("pais") == "Angola":
+            filtros.append("africa")
+        a["filtros"] = " ".join(filtros)
+        lista.append(a)
+    lista.sort(key=lambda a: (a["ordem"], -a["dias"]))
+    conta = {k: sum(1 for a in lista if a["estado"] == k) for k in ESTADOS}
+    resumo = {
+        "em_curso": conta["em-curso"], "recuperacao": conta["recuperacao"], "resolvidos": conta["resolvido"],
+        "media": round(sum(a["dias"] for a in lista) / len(lista)) if lista else 0,
+    }
+    actualizado = dados.get("actualizado")
+    if isinstance(actualizado, str):
+        try:
+            actualizado = dt.datetime.fromisoformat(actualizado.strip())
+        except ValueError:
+            pass
+    if isinstance(actualizado, (dt.datetime, dt.date)):
+        actualizado = actualizado.strftime("%d.%m.%Y às %H:%M" if isinstance(actualizado, dt.datetime) else "%d.%m.%Y")
+    return {"ataques": lista, "actualizado": actualizado, "resumo": resumo}
 
 
 def env():
@@ -196,6 +293,8 @@ def main():
               [x for x in noticias if x is not n][:3]
         ficha = next((f for f in fichas if f.get("noticia") == n["slug"]), None)
         render(e, "artigo.html", f"{n['url']}index.html", it=n, relacionados=rel, ficha=ficha, og=n["og"])
+    ataques = ler_ataques(noticias)
+    render(e, "ataques.html", "ataques/index.html", **ataques)
     render(e, "fichas.html", "fichas/index.html", itens=fichas)
     for f in fichas:
         noticia = next((n for n in noticias if n["slug"] == f.get("noticia")), None)
@@ -214,7 +313,7 @@ def main():
     for it in todos:
         it["rfc822"] = format_datetime(dt.datetime.combine(it["data"], dt.time(8, 0), dt.timezone(dt.timedelta(hours=1))))
     escrever("feed.xml", e.get_template("feed.xml").render(itens=todos[:30], base=base))
-    urls = ["", "noticias/", "fichas/", "dicas/", "sobre/"] + [it["url"] for it in todos]
+    urls = ["", "noticias/", "ataques/", "fichas/", "dicas/", "sobre/"] + [it["url"] for it in todos]
     escrever("sitemap.xml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
              + "".join(f"  <url><loc>{html.escape(base + u)}</loc></url>\n" for u in urls) + "</urlset>\n")
     escrever("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {base}sitemap.xml\n")

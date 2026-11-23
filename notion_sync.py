@@ -3,6 +3,8 @@
 Vai buscar à base de dados "Blog noticias.semwhere" do Notion as páginas com Estado = Publicar,
 grava o artigo (o bloco de código Markdown da página) em content/<Ficheiro>.md e, depois de
 publicado, muda o Estado para Publicado e preenche o Link.
+A página com Ficheiro "dados/ataques" leva um bloco de código YAML com os dados da página
+"Ataques em curso" e é gravada em content/ataques.yaml.
 
 Uso (no GitHub Actions, com o segredo NOTION_TOKEN):
     python3 notion_sync.py buscar    # grava os ficheiros novos e a lista em .notion_pendentes.json
@@ -25,6 +27,7 @@ TOKEN = os.environ.get("NOTION_TOKEN", "").strip()
 DB = str(SITE.get("notion_db", "")).replace("-", "")
 PENDENTES = ROOT / ".notion_pendentes.json"
 CAMINHO = re.compile(r"^(noticias|fichas|dicas)/(\d{4}-\d{2}-\d{2})-([a-z0-9]+(?:-[a-z0-9]+)*)$")
+DADOS = {"dados/ataques": ("ataques.yaml", "ataques/")}  # Ficheiro -> (ficheiro em content/, página do site)
 
 
 def api(metodo, caminho, dados=None):
@@ -63,6 +66,8 @@ def conteudo_da_pagina(pid):
 
 
 def link(caminho):
+    if caminho in DADOS:
+        return SITE["url"].rstrip("/") + "/" + DADOS[caminho][1]
     tipo, _data, slug = CAMINHO.match(caminho).groups()
     return SITE["url"].rstrip("/") + f"/{tipo}/{slug}/"
 
@@ -94,7 +99,22 @@ def buscar():
     for p in paginas:
         pid = p["id"]
         caminho = texto(p["properties"]["Ficheiro"]["title"]).strip()
-        caminho = re.sub(r"\.md$", "", caminho)
+        caminho = re.sub(r"\.(md|ya?ml)$", "", caminho)
+        if caminho in DADOS:
+            texto_yaml = conteudo_da_pagina(pid)
+            try:
+                dados = yaml.safe_load(texto_yaml)
+            except yaml.YAMLError as e:
+                marcar_erro(pid, f"{caminho}: YAML inválido ({e})")
+                continue
+            if not isinstance(dados, dict) or not isinstance(dados.get("ataques"), list):
+                marcar_erro(pid, f"{caminho}: o YAML tem de ter a lista 'ataques'")
+                continue
+            destino = ROOT / "content" / DADOS[caminho][0]
+            destino.write_text(texto_yaml, encoding="utf-8")
+            gravadas.append({"id": pid, "caminho": caminho})
+            print("Gravado:", destino.relative_to(ROOT))
+            continue
         if not CAMINHO.match(caminho):
             marcar_erro(pid, f"caminho inválido: {caminho!r}")
             continue
