@@ -49,6 +49,9 @@ jobs:
         run: |
           pip install -q PyYAML
           python notion_sync.py buscar
+          if [ -f .notion_pendentes.json ] && [ "$(cat .notion_pendentes.json)" != "[]" ]; then
+            echo "pendentes=sim" >> "$GITHUB_OUTPUT"
+          fi
           git config user.name "noticias.semwhere"
           git config user.email "actions@users.noreply.github.com"
           git add content
@@ -95,7 +98,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Marcar artigos como publicados no Notion
-        if: steps.notion.outputs.novos == 'sim' && success()
+        if: steps.notion.outputs.pendentes == 'sim' && success()
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN || secrets.NOTION_SECRET }}
         run: python notion_sync.py marcar
