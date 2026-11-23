@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{% block titulo %}{{ site.nome }} | {{ site.descricao }}{% endblock %}</title>
 <meta name="description" content="{% block descricao %}{{ site.descricao }}{% endblock %}">
-{% set og_img = og if og is defined else '' %}
+{% set og_img = og if og is defined else 'og/capa.png' %}
 <meta property="og:site_name" content="{{ site.nome }}">
 <meta property="og:title" content="{{ self.titulo() | trim }}">
 <meta property="og:description" content="{{ self.descricao() | trim }}">

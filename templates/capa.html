@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1200px;height:630px;background:#0e1116;color:#f2f4f7;font-family:'Inter',sans-serif;display:flex;padding:56px 60px;gap:48px}
+.txt{flex:1;display:flex;flex-direction:column}
+.marca{font-family:'Caladea',serif;font-weight:700;font-size:34px;padding-bottom:18px;border-bottom:2px solid #f2f4f7}
+.marca span{color:#d63c3c}
+.tag{align-self:flex-start;margin-top:34px;background:#d63c3c;color:#fff;font-weight:700;font-size:20px;letter-spacing:3px;padding:9px 16px}
+h1{font-family:'Caladea',serif;font-weight:700;font-size:62px;line-height:1.05;margin-top:22px}
+ul{list-style:none;margin-top:26px}
+li{font-size:25px;color:#c9cfd8;padding:7px 0;display:flex;gap:14px;align-items:center}
+li i{width:10px;height:10px;background:#d63c3c;flex-shrink:0}
+.url{margin-top:auto;font-size:22px;color:#8b93a1;font-weight:500}
+.arte{width:360px;display:flex;align-items:center;background:#151922;border:1px solid #232833}
+.arte svg{width:100%;padding:0 2%;transform:scale(1.6)}
+</style></head><body>
+<div class="txt">
+  <div class="marca">noticias<span>.</span>semwhere</div>
+  <div class="tag">NOVO BLOG</div>
+  <h1>As notícias do Canal, com mais detalhe</h1>
+  <ul><li><i></i>Notícias explicadas, com as fontes</li><li><i></i>Fichas das vulnerabilidades</li><li><i></i>Dicas de segurança passo a passo</li></ul>
+  <div class="url">noticias-semwhere.github.io/posts</div>
+</div>
+<div class="arte">{{ arte | safe }}</div>
+</body></html>
