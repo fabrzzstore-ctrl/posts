@@ -45,7 +45,7 @@ jobs:
       - name: Ir buscar artigos ao Notion
         id: notion
         env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN || secrets.NOTION_SECRET }}
         run: |
           pip install -q PyYAML
           python notion_sync.py buscar
@@ -97,5 +97,5 @@ jobs:
       - name: Marcar artigos como publicados no Notion
         if: steps.notion.outputs.novos == 'sim' && success()
         env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN || secrets.NOTION_SECRET }}
         run: python notion_sync.py marcar
