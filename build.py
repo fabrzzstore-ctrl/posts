@@ -6,7 +6,7 @@ Uso:
 
 Conteúdo em content/:
     noticias/AAAA-MM-DD-slug.md   artigos (front matter YAML + texto em Markdown)
-    fichas/AAAA-MM-DD-slug.md     fichas de falhas (CVE)
+    fichas/AAAA-MM-DD-slug.md     fichas das vulnerabilidades (CVE)
     dicas/AAAA-MM-DD-slug.md      dicas de segurança
     sobre.md                      página "Sobre"
 """
@@ -214,7 +214,7 @@ def main():
     if com_og and falta:
         for it in falta:
             it.setdefault("arte", ilustracao(it.get("ilustracao", "escudo"), it["cor"]))
-            it.setdefault("rotulo", "Ficha da falha" if it in fichas else NIVEIS["DICA"][0] if it in dicas else "")
+            it.setdefault("rotulo", "Ficha da vulnerabilidade" if it in fichas else NIVEIS["DICA"][0] if it in dicas else "")
         gerar_og(falta)
     print(f"Site gerado em {OUT}: {len(noticias)} notícias, {len(fichas)} fichas, {len(dicas)} dicas"
           + (f", {len(falta)} imagens de pré-visualização novas" if com_og else ""))

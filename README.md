@@ -1,6 +1,6 @@
 # Blog noticias.semwhere
 
-Site estático do noticias.semwhere, com notícias, fichas das falhas e dicas de segurança. É publicado no GitHub Pages, de graça. Sempre que se envia um ficheiro novo para o repositório, o GitHub gera e publica o site sozinho.
+Site estático do noticias.semwhere, com notícias, fichas das vulnerabilidades e dicas de segurança. É publicado no GitHub Pages, de graça. Sempre que se envia um ficheiro novo para o repositório, o GitHub gera e publica o site sozinho.
 
 ## Publicar pela primeira vez (cerca de 10 minutos)
 
@@ -23,7 +23,7 @@ Depois de comprar um domínio (por exemplo `noticiassemwhere.com`), escreva-o em
 Cada artigo é um ficheiro de texto em `content/`. Para publicar, basta acrescentar o ficheiro ao repositório.
 
 - Notícias: `content/noticias/AAAA-MM-DD-titulo-curto.md`
-- Fichas das falhas: `content/fichas/AAAA-MM-DD-nome.md`
+- Fichas das vulnerabilidades: `content/fichas/AAAA-MM-DD-nome.md`
 - Dicas: `content/dicas/AAAA-MM-DD-titulo-curto.md`
 - Página "Sobre": `content/sobre.md`
 
