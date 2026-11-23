@@ -1,9 +1,13 @@
 # Gera e publica o blog no GitHub Pages.
-# Se existir um site.zip no repositório, extrai-o primeiro (com as pastas certas) e guarda os ficheiros no repositório.
+# - A cada envio para o ramo main.
+# - De 10 em 10 minutos: vai buscar ao Notion os artigos com Estado "Publicar" (segredo NOTION_TOKEN).
+# - Se existir um site.zip no repositório, extrai-o primeiro.
 name: Publicar o blog
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -34,35 +38,64 @@ jobs:
             git push
           fi
 
-      - name: Verificar se o site já está no repositório
-        id: verificar
-        run: |
-          if [ -f build.py ]; then echo "pronto=sim" >> "$GITHUB_OUTPUT"; else echo "pronto=nao" >> "$GITHUB_OUTPUT"; echo "Ainda não há build.py nem site.zip. Carregue o site.zip para publicar."; fi
-
       - uses: actions/setup-python@v5
-        if: steps.verificar.outputs.pronto == 'sim'
         with:
           python-version: "3.12"
 
+      - name: Ir buscar artigos ao Notion
+        id: notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          pip install -q PyYAML
+          python notion_sync.py buscar
+          git config user.name "noticias.semwhere"
+          git config user.email "actions@users.noreply.github.com"
+          git add content
+          if git diff --cached --quiet; then
+            echo "novos=nao" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Artigos do Notion"
+            git pull --rebase -q
+            git push
+            echo "novos=sim" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Decidir se é preciso publicar
+        id: decidir
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "${{ steps.notion.outputs.novos }}" = "sim" ]; then
+            echo "publicar=sim" >> "$GITHUB_OUTPUT"
+          else
+            echo "publicar=nao" >> "$GITHUB_OUTPUT"
+            echo "Sem artigos novos no Notion."
+          fi
+
       - name: Instalar dependências
-        if: steps.verificar.outputs.pronto == 'sim'
+        if: steps.decidir.outputs.publicar == 'sim'
         run: |
           sudo apt-get update && sudo apt-get install -y fonts-crosextra-caladea fonts-inter
           pip install -r requirements.txt
           python -m playwright install --with-deps chromium
 
       - name: Gerar o site
-        if: steps.verificar.outputs.pronto == 'sim'
+        if: steps.decidir.outputs.publicar == 'sim'
         run: python build.py --og
 
       - uses: actions/configure-pages@v5
-        if: steps.verificar.outputs.pronto == 'sim'
+        if: steps.decidir.outputs.publicar == 'sim'
 
       - uses: actions/upload-pages-artifact@v3
-        if: steps.verificar.outputs.pronto == 'sim'
+        if: steps.decidir.outputs.publicar == 'sim'
         with:
           path: docs
 
       - id: deploy
-        if: steps.verificar.outputs.pronto == 'sim'
+        if: steps.decidir.outputs.publicar == 'sim'
         uses: actions/deploy-pages@v4
+
+      - name: Marcar artigos como publicados no Notion
+        if: steps.notion.outputs.novos == 'sim' && success()
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: python notion_sync.py marcar
