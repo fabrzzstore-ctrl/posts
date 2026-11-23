@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% from "macros.html" import canal, partilha, medidor %}
 {% set menu = 'fichas' %}
-{% block titulo %}{{ it.nome }} ({{ it.codigo }}): ficha da falha | {{ site.nome }}{% endblock %}
+{% block titulo %}{{ it.nome }} ({{ it.codigo }}): ficha da vulnerabilidade | {{ site.nome }}{% endblock %}
 {% block descricao %}{{ it.resumo }}{% endblock %}
 {% block og_tipo %}article{% endblock %}
 {% block conteudo %}
@@ -9,7 +9,7 @@
   <header class="ficha-cabeca">
     <div class="wrap ficha-cabeca-in">
       <div>
-        <p class="ficha-tipo"><a href="{{ root }}fichas/">Fichas das falhas</a> / {{ it.categoria }}</p>
+        <p class="ficha-tipo"><a href="{{ root }}fichas/">Fichas das vulnerabilidades</a> / {{ it.categoria }}</p>
         <h1>{{ it.nome }}</h1>
         <p class="ficha-codigo">{{ it.codigo }}</p>
         <p class="artigo-resumo">{{ it.resumo }}</p>
@@ -43,7 +43,7 @@
         <ul>{% for f in it.fontes %}<li><a href="{{ f.url }}" rel="noopener"><span>{{ f.dominio }}</span>{{ f.nome.split(': ', 1)[-1] }}</a></li>{% endfor %}</ul>
       </section>
       {% endif %}
-      {{ partilha('Ficha da falha ' ~ it.nome ~ ' (' ~ it.codigo ~ ')', site.url|trim('/') ~ '/' ~ it.url) }}
+      {{ partilha('Ficha da vulnerabilidade ' ~ it.nome ~ ' (' ~ it.codigo ~ ')', site.url|trim('/') ~ '/' ~ it.url) }}
       {{ canal(site) }}
     </div>
   </div>
