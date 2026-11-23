@@ -135,6 +135,19 @@ def gerar_og(itens):
         b.close()
 
 
+def gerar_capa():
+    """Imagem 1200x630 para a pré-visualização da página inicial, das listas e da página Sobre."""
+    from playwright.sync_api import sync_playwright
+    pagina = env().get_template("capa.html").render(arte=ilustracao("escudo", "#d63c3c"))
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        pg = b.new_page(viewport={"width": 1200, "height": 630})
+        pg.set_content(pagina)
+        pg.wait_for_timeout(300)
+        pg.screenshot(path=str(OUT / "og" / "capa.png"))
+        b.close()
+
+
 def main():
     com_og = "--og" in sys.argv
     og_antigas = {}
@@ -216,6 +229,8 @@ def main():
             it.setdefault("arte", ilustracao(it.get("ilustracao", "escudo"), it["cor"]))
             it.setdefault("rotulo", "Ficha da vulnerabilidade" if it in fichas else NIVEIS["DICA"][0] if it in dicas else "")
         gerar_og(falta)
+    if com_og:
+        gerar_capa()
     print(f"Site gerado em {OUT}: {len(noticias)} notícias, {len(fichas)} fichas, {len(dicas)} dicas"
           + (f", {len(falta)} imagens de pré-visualização novas" if com_og else ""))
 
