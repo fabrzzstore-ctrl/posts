@@ -1,0 +1,165 @@
+# Ataques em curso: página /ataques/ do blog.
+# Actualizado em cada edição pelas tarefas agendadas (página "dados/ataques" no Notion).
+# Regras: só ataques noticiados por meios credíveis ou confirmados pela empresa; nunca links
+# para sites de grupos criminosos nem para dados roubados. Os resolvidos saem 30 dias depois.
+actualizado: 2026-11-23 09:45
+ataques:
+  - id: bell-canada
+    empresa: Bell Canada
+    sector: Telecomunicações
+    pais: Canadá
+    regiao: americas
+    tipo: Intrusão com agentes de IA
+    detectado: 2026-11-17
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "O atacante, que usou agentes de IA, levou dados de clientes empresariais e, na filial Bell MTS, dados pessoais de clientes residenciais e acesso a contas de e-mail."
+    noticias:
+      - hacker-com-ajuda-de-ia-invade-operadora-bell
+      - ataque-a-operadora-bell-atinge-clientes-comuns
+    fontes:
+      - nome: "CBC News: Cyberattack compromised personal customer information, Bell MTS says"
+        url: https://www.cbc.ca/news/canada/manitoba/cyberattack-compromised-customer-information-bell-mts-9.7432132
+      - nome: "BleepingComputer: Bell Canada says agentic hacker stole enterprise customer data"
+        url: https://www.bleepingcomputer.com/news/security/bell-canada-says-agentic-hacker-stole-enterprise-customer-data/
+
+  - id: usda
+    empresa: Departamento de Agricultura dos EUA (USDA)
+    sector: Administração pública
+    pais: Estados Unidos
+    regiao: americas
+    tipo: Intrusão no sistema de pagamentos
+    detectado: 2026-11-19
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "O sistema que paga apoios aos agricultores foi atacado e vários sistemas foram desligados. O USDA diz que não perdeu dados pessoais e espera repor os programas em breve."
+    noticias:
+      - hackers-invadem-sistema-que-paga-aos-agricultores
+    fontes:
+      - nome: "Nextgov: USDA grapples with security breach as IT staff take multiple systems offline"
+        url: https://www.nextgov.com/cybersecurity/2026/11/usda-grapples-security-breach-it-staff-take-multiple-systems-offline/417350/
+      - nome: "AgWeb: Cyberattack hits USDA, agency expects FSA programs to be up and running soon"
+        url: https://www.agweb.com/news/cyberattack-hits-usda-agency-expects-fsa-programs-be-and-running-soon
+
+  - id: fbi-ncic
+    empresa: FBI, base de dados de crimes (NCIC)
+    sector: Polícia
+    pais: Estados Unidos
+    regiao: americas
+    tipo: Suspeita de intrusão
+    detectado: 2026-11-21
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: nao
+    resumo: "O FBI investiga uma possível intrusão na base de dados que as polícias dos EUA consultam todos os dias. O FBI não comentou e não se sabe que dados foram vistos."
+    noticias:
+      - fbi-investiga-ataque-a-base-de-dados-de-crimes
+    fontes:
+      - nome: "BleepingComputer: FBI reportedly hacked again, this time targeting nationwide police database"
+        url: https://www.bleepingcomputer.com/news/security/fbi-reportedly-hacked-again-this-time-targeting-nationwide-police-database/
+      - nome: "The Hill: FBI looking into possible breach of its crime database"
+        url: https://thehill.com/policy/technology/6235094-fbi-investigates-ncic-breach/
+
+  - id: comissao-europeia
+    empresa: Comissão Europeia
+    sector: Administração pública
+    pais: União Europeia
+    regiao: europa
+    tipo: Intrusão nos sistemas internos
+    detectado: 2026-11-19
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "Os sistemas de recursos humanos, salários e reembolsos médicos dos funcionários foram desligados. A Comissão ainda não sabe se houve roubo de dados pessoais."
+    noticias: []
+    fontes:
+      - nome: "Euronews: EU Commission hit by large-scale cyberattack with data leakage unknown"
+        url: https://www.euronews.com/2026/11/19/eu-commission-hit-by-large-scale-cyberattack-with-data-leakage-unknown
+      - nome: "Techzine: Cyberattack shuts down European Commission's HR systems"
+        url: https://www.techzine.eu/news/security/145921/cyberattack-shuts-down-european-commissions-hr-systems/
+
+  - id: tfl-oyster
+    empresa: Transport for London (passes Oyster)
+    sector: Transportes
+    pais: Reino Unido
+    regiao: europa
+    tipo: Acesso indevido a contas
+    detectado: 2026-11-16
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "O site dos passes Oyster com fotografia foi desligado depois de acessos indevidos a contas. Cerca de 265 mil clientes podem ter tido nomes, moradas e respostas de segurança expostos."
+    noticias:
+      - hackers-atacam-passes-de-londres
+    fontes:
+      - nome: "BleepingComputer: Transport for London breach exposes 265,000 Oyster card users' data"
+        url: https://www.bleepingcomputer.com/news/security/transport-for-london-breach-exposes-265-000-oyster-card-users-data/
+      - nome: "IanVisits: TfL cyber attack may have exposed data of 265,000 Oyster photocard users"
+        url: https://www.ianvisits.co.uk/articles/tfl-cyber-attack-may-have-exposed-data-of-265000-oyster-photocard-users-94247/
+
+  - id: n-able
+    empresa: N-able (Mail Assure e SpamExperts)
+    sector: Tecnologia
+    pais: Estados Unidos
+    regiao: americas
+    tipo: Intrusão num servidor na nuvem
+    detectado: 2026-11-16
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "Os e-mails continuam a ser filtrados, mas o painel de gestão, a API e a quarentena dos serviços de filtragem estão em baixo em três regiões. Não há provas de roubo de dados."
+    noticias:
+      - hackers-invadem-servidor-que-filtra-e-mails
+    fontes:
+      - nome: "N-able: Mail Assure incident update"
+        url: https://www.n-able.com/blog/mail-assure-incident-update
+      - nome: "The Hacker News: Hackers breach N-able cloud server, disrupting email security management across 3 regions"
+        url: https://thehackernews.com/2026/11/n-able-confirms-hackers-accessed-cloud.html
+
+  - id: imt-portugal
+    empresa: Instituto da Mobilidade e dos Transportes (IMT)
+    sector: Administração pública
+    pais: Portugal
+    regiao: europa
+    tipo: Vários ciberataques
+    detectado: 2026-11-19
+    resolvido:
+    estado: recuperacao
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "O instituto que trata das cartas de condução suspendeu os serviços por precaução depois de vários ataques. O site já foi reposto e não há sinais de roubo de dados."
+    noticias:
+      - instituto-das-cartas-de-conducao-sofre-ataque
+    fontes:
+      - nome: "Tek Notícias: IMT é alvo de vários ciberataques e suspende os serviços. Site já foi reposto"
+        url: https://tek.sapo.pt/noticias/internet/artigos/imt-e-alvo-de-varios-ciberataques-e-suspende-os-servicos/
+      - nome: "Público: IMT é alvo de ciberataques e suspende o serviço"
+        url: https://www.publico.pt/2026/11/19/enter/noticia/imt-alvo-ciberataques-suspende-servico-2195628
+
+  - id: equinor
+    empresa: Equinor
+    sector: Energia
+    pais: Noruega
+    regiao: europa
+    tipo: Intrusão nos sistemas de escritório
+    detectado: 2026-11-17
+    resolvido: 2026-11-20
+    estado: resolvido
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "A petrolífera travou o ataque três dias depois de o detectar. A produção de petróleo e gás não foi afectada e a empresa diz não haver sinais de roubo de dados."
+    noticias:
+      - equinor-trava-ataque-informatico-apos-tres-dias
+    fontes:
+      - nome: "Equinor: Equinor detected cyber attack"
+        url: https://equinor.com/news/20261711-equinor-detected-cyber-attack
+      - nome: "The Record: Norway's Equinor hit by cyberattack"
+        url: https://therecord.media/norway-equinor-cyberattack-energy
