@@ -2,8 +2,26 @@
 # Actualizado em cada edição pelas tarefas agendadas (página "dados/ataques" no Notion).
 # Regras: só ataques noticiados por meios credíveis ou confirmados pela empresa; nunca links
 # para sites de grupos criminosos nem para dados roubados. Os resolvidos saem 30 dias depois.
-actualizado: 2026-11-23 09:45
+actualizado: 2026-11-23 19:45
 ataques:
+  - id: next-fornecedor
+    empresa: Next (fornecedor)
+    sector: Comércio
+    pais: Reino Unido
+    regiao: europa
+    tipo: Ataque informático a um fornecedor
+    detectado: 2026-11-23
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "Um fornecedor da cadeia de roupa Next sofreu um ataque informático. A empresa diz que os dados dos clientes não foram afectados e ainda não revelou mais pormenores."
+    noticias:
+      - ataque-a-fornecedor-atinge-lojas-britanicas-next
+    fontes:
+      - nome: "Bloomberg: Supplier Cyberattack Hits Next Plc, No Customer Data Compromised"
+        url: https://www.bloomberg.com/news/articles/2026-11-23/next-supplier-hit-by-cyberattack-in-latest-uk-retail-breach
+
   - id: bell-canada
     empresa: Bell Canada
     sector: Telecomunicações
