@@ -13,6 +13,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -127,5 +128,23 @@ def marcar():
     PENDENTES.unlink()
 
 
+MOTIVOS = {
+    401: "a chave do Notion (segredo NOTION_TOKEN ou NOTION_SECRET) não é válida. Copie de novo o "
+         "'Internal Integration Secret' da integração e cole-o no segredo do GitHub.",
+    403: "a integração do Notion não tem permissão para ler esta base de dados.",
+    404: "a integração não encontra a base de dados. Abra a base 'Blog noticias.semwhere' no Notion, "
+         "menu ··· > Ligações (Connections) e adicione a integração.",
+}
+
 if __name__ == "__main__":
-    {"buscar": buscar, "marcar": marcar}[sys.argv[1]]()
+    try:
+        {"buscar": buscar, "marcar": marcar}[sys.argv[1]]()
+    except urllib.error.HTTPError as e:
+        # Um problema no Notion não pode impedir a publicação do resto do site.
+        print(f"::warning::Notion respondeu {e.code}: {MOTIVOS.get(e.code, e.reason)}")
+        if sys.argv[1] == "buscar":
+            PENDENTES.write_text("[]")
+    except urllib.error.URLError as e:
+        print(f"::warning::Não foi possível ligar ao Notion: {e.reason}")
+        if sys.argv[1] == "buscar":
+            PENDENTES.write_text("[]")
