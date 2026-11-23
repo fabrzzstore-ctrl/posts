@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set menu = 'dicas' %}
+{% block titulo %}Dicas de segurança | {{ site.nome }}{% endblock %}
+{% block descricao %}Passos simples para proteger o telemóvel, as contas e o dinheiro.{% endblock %}
+{% block conteudo %}
+<div class="wrap">
+  <header class="cabeca-pagina">
+    <h1>Dicas de segurança</h1>
+    <p>Passos simples para proteger o telemóvel, as contas e o dinheiro. Cada dica explica o risco e como se proteger em poucos minutos.</p>
+  </header>
+  <div class="dicas-grelha">
+    {% for d in itens %}
+    <a class="dica-cartao" href="{{ root }}{{ d.url }}">
+      <span class="dica-cat">{{ d.categoria }}</span>
+      <strong>{{ d.titulo }}</strong>
+      <span class="dica-resumo">{{ d.resumo }}</span>
+      <span class="meta"><time datetime="{{ d.iso }}">{{ d.data_curta }}</time></span>
+    </a>
+    {% else %}<p class="vazio">Ainda não há dicas publicadas.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

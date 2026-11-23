@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block titulo %}{{ site.nome }} | {{ site.descricao }}{% endblock %}</title>
+<meta name="description" content="{% block descricao %}{{ site.descricao }}{% endblock %}">
+{% set og_img = og if og is defined else '' %}
+<meta property="og:site_name" content="{{ site.nome }}">
+<meta property="og:title" content="{{ self.titulo() | trim }}">
+<meta property="og:description" content="{{ self.descricao() | trim }}">
+<meta property="og:type" content="{% block og_tipo %}website{% endblock %}">
+<meta property="og:url" content="{{ site.url | trim('/') }}/{{ caminho }}">
+<meta property="og:locale" content="pt_PT">
+{% if og_img %}<meta property="og:image" content="{{ site.url | trim('/') }}/{{ og_img }}">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">{% endif %}
+<meta name="theme-color" content="#0e1116">
+<link rel="canonical" href="{{ site.url | trim('/') }}/{{ caminho }}">
+<link rel="alternate" type="application/rss+xml" title="{{ site.nome }}" href="{{ root }}feed.xml">
+<link rel="icon" type="image/svg+xml" href="{{ root }}static/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caladea:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ root }}static/style.css">
+<script>try{var t=localStorage.getItem('tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body class="{% block corpo_classe %}{% endblock %}">
+<a class="saltar" href="#conteudo">Saltar para o conteúdo</a>
+<header class="topo">
+  <div class="wrap topo-in">
+    <a class="marca" href="{{ root }}" aria-label="noticias.semwhere, página inicial">noticias<span>.</span>semwhere</a>
+    <nav class="menu" aria-label="Principal">
+      <a href="{{ root }}noticias/"{% if menu == 'noticias' %} aria-current="page"{% endif %}>Notícias</a>
+      <a href="{{ root }}fichas/"{% if menu == 'fichas' %} aria-current="page"{% endif %}>Fichas das falhas</a>
+      <a href="{{ root }}dicas/"{% if menu == 'dicas' %} aria-current="page"{% endif %}>Dicas</a>
+      <a href="{{ root }}sobre/"{% if menu == 'sobre' %} aria-current="page"{% endif %}>Sobre</a>
+    </nav>
+    <div class="topo-accoes">
+      <button class="tema" type="button" aria-label="Mudar entre modo claro e escuro" title="Modo claro / escuro">
+        <svg class="i-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+        <svg class="i-lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg>
+      </button>
+      {% if site.canal_whatsapp %}<a class="botao botao-canal" href="{{ site.canal_whatsapp }}">Seguir o Canal</a>{% endif %}
+    </div>
+  </div>
+</header>
+<main id="conteudo">
+{% block conteudo %}{% endblock %}
+</main>
+<footer class="rodape">
+  <div class="wrap rodape-in">
+    <div class="rodape-marca">
+      <a class="marca" href="{{ root }}">noticias<span>.</span>semwhere</a>
+      <p>{{ site.descricao }} Cada notícia é confirmada em fontes credíveis, indicadas no fim do artigo.</p>
+    </div>
+    <nav class="rodape-links" aria-label="Rodapé">
+      <a href="{{ root }}noticias/">Notícias</a>
+      <a href="{{ root }}fichas/">Fichas das falhas</a>
+      <a href="{{ root }}dicas/">Dicas de segurança</a>
+      <a href="{{ root }}sobre/">Sobre</a>
+      <a href="{{ root }}feed.xml">RSS</a>
+      {% if site.canal_whatsapp %}<a href="{{ site.canal_whatsapp }}">Canal do WhatsApp</a>{% endif %}
+    </nav>
+  </div>
+  <div class="wrap"><p class="rodape-fim">© {{ ano }} noticias.semwhere</p></div>
+</footer>
+<script>
+(function(){
+  var b=document.querySelector('.tema'),r=document.documentElement;
+  b&&b.addEventListener('click',function(){
+    r.dataset.theme=(r.dataset.theme==='light')?'dark':'light';
+    try{localStorage.setItem('tema',r.dataset.theme)}catch(e){}
+  });
+  var bar=document.querySelector('.progresso i');
+  if(bar){var art=document.querySelector('.corpo');addEventListener('scroll',function(){
+    var a=art.getBoundingClientRect(),t=a.height-innerHeight*0.6;
+    bar.style.transform='scaleX('+Math.min(1,Math.max(0,-a.top/(t>0?t:1)))+')';},{passive:true});}
+  document.querySelectorAll('[data-copiar]').forEach(function(el){
+    el.addEventListener('click',function(){
+      var u=el.getAttribute('data-copiar'),s=el.querySelector('span'),o=s.textContent;
+      function ok(){s.textContent='Link copiado';setTimeout(function(){s.textContent=o},1800)}
+      if(navigator.clipboard){navigator.clipboard.writeText(u).then(ok,function(){prompt('Copie o link:',u)})}else{prompt('Copie o link:',u)}
+    });
+  });
+  var chips=document.querySelectorAll('[data-filtro]');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    var f=c.getAttribute('data-filtro');
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});
+    document.querySelectorAll('[data-tema]').forEach(function(it){it.hidden=!(f==='todas'||it.getAttribute('data-tema')===f)});
+  })});
+})();
+</script>
+</body>
+</html>

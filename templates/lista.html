@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "macros.html" import cartao %}
+{% set menu = 'noticias' %}
+{% block titulo %}{{ titulo }} | {{ site.nome }}{% endblock %}
+{% block descricao %}{{ descricao }}{% endblock %}
+{% block conteudo %}
+<div class="wrap">
+  <header class="cabeca-pagina">
+    <h1>{{ titulo }}</h1>
+    <p>{{ descricao }}</p>
+    {% if seccoes|length > 1 %}
+    <nav class="filtros" aria-label="Secções">
+      <a href="{{ root }}noticias/"{% if titulo == 'Notícias' %} aria-current="page"{% endif %}>Todas</a>
+      {% for chave, nome in seccoes.items() %}<a href="{{ root }}seccao/{{ chave }}/"{% if titulo == nome %} aria-current="page"{% endif %}>{{ nome }}</a>{% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+  <div class="grelha grelha-pagina">
+    {% for n in itens %}{{ cartao(n, root) }}{% else %}<p class="vazio">Ainda não há notícias nesta secção. Veja <a href="{{ root }}noticias/">todas as notícias</a>.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titulo %}Página não encontrada | {{ site.nome }}{% endblock %}
+{% block conteudo %}
+<div class="wrap cabeca-pagina">
+  <h1>Esta página não existe</h1>
+  <p>O endereço pode estar incompleto ou a página pode ter mudado de lugar.</p>
+  <p class="ver-todas"><a class="botao botao-primario" href="{{ root }}">Ir para as últimas notícias</a></p>
+</div>
+{% endblock %}

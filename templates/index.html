@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% from "macros.html" import cartao, canal, medidor, etiqueta %}
+{% block conteudo %}
+{% if noticias %}
+{% set d = noticias[0] %}
+<section class="abertura" style="--nivel: {{ d.cor }}">
+  <div class="wrap abertura-in">
+    <div class="abertura-txt">
+      <p class="cartao-topo">{{ etiqueta(d) }}<a class="seccao" href="{{ root }}seccao/{{ d.tema }}/">{{ d.seccao }}</a></p>
+      <h1><a href="{{ root }}{{ d.url }}">{{ d.titulo }}</a></h1>
+      <p class="abertura-resumo">{{ d.resumo }}</p>
+      <p class="meta"><time datetime="{{ d.iso }}">{{ d.data_pt }}</time><span>{{ d.leitura }} min de leitura</span></p>
+      <a class="botao botao-primario" href="{{ root }}{{ d.url }}">Ler a notícia completa</a>
+    </div>
+    <a class="abertura-arte painel" href="{{ root }}{{ d.url }}" tabindex="-1" aria-hidden="true">{{ d.arte | safe }}</a>
+  </div>
+</section>
+{% endif %}
+
+<div class="wrap">
+  {% if noticias|length > 1 %}
+  <section class="bloco" aria-labelledby="t-recentes">
+    <div class="bloco-cabeca">
+      <h2 id="t-recentes">Mais recentes</h2>
+      {% if seccoes|length > 1 %}
+      <div class="filtros" role="group" aria-label="Filtrar por secção">
+        <button type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+        {% for chave, nome in seccoes.items() %}<button type="button" data-filtro="{{ chave }}" aria-pressed="false">{{ nome }}</button>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="grelha">
+      {% for n in noticias[1:13] %}{{ cartao(n, root) }}{% endfor %}
+    </div>
+    <p class="ver-todas"><a class="botao botao-sec" href="{{ root }}noticias/">Ver todas as notícias</a></p>
+  </section>
+  {% endif %}
+</div>
+
+{% if fichas %}
+<section class="faixa-fichas" aria-labelledby="t-fichas">
+  <div class="wrap">
+    <div class="bloco-cabeca">
+      <div>
+        <h2 id="t-fichas">Fichas das falhas</h2>
+        <p class="bloco-intro">As falhas de segurança mais graves, numa ficha: o que são, quem afectam e se já há correcção.</p>
+      </div>
+      <a class="ligacao" href="{{ root }}fichas/">Todas as fichas</a>
+    </div>
+    <div class="fichas-grelha">
+      {% for f in fichas[:3] %}
+      <a class="ficha-cartao" href="{{ root }}{{ f.url }}" style="--nivel: {{ f.cor }}">
+        {{ medidor(f) }}
+        <span class="ficha-txt">
+          <strong>{{ f.nome }}</strong>
+          <span class="ficha-cve">{{ f.codigo }}</span>
+          <span class="ficha-resumo">{{ f.resumo }}</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<div class="wrap">
+  {% if dicas %}
+  <section class="bloco" aria-labelledby="t-dicas">
+    <div class="bloco-cabeca">
+      <div>
+        <h2 id="t-dicas">Dicas de segurança</h2>
+        <p class="bloco-intro">Passos simples para proteger o telemóvel, as contas e o dinheiro.</p>
+      </div>
+      <a class="ligacao" href="{{ root }}dicas/">Todas as dicas</a>
+    </div>
+    <div class="dicas-fila">
+      {% for d in dicas[:6] %}
+      <a class="dica-cartao" href="{{ root }}{{ d.url }}">
+        <span class="dica-cat">{{ d.categoria }}</span>
+        <strong>{{ d.titulo }}</strong>
+        <span class="dica-resumo">{{ d.resumo }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {{ canal(site) }}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% macro etiqueta(n) -%}
+<span class="etiqueta"><i aria-hidden="true"></i>{{ n.rotulo }}</span>
+{%- endmacro %}
+
+{% macro cartao(n, root, tamanho='') -%}
+<article class="cartao {{ tamanho }}" style="--nivel: {{ n.cor }}" data-tema="{{ n.tema }}">
+  <a class="painel" href="{{ root }}{{ n.url }}" tabindex="-1" aria-hidden="true">{{ n.arte | safe }}</a>
+  <div class="cartao-txt">
+    <p class="cartao-topo">{{ etiqueta(n) }}<a class="seccao" href="{{ root }}seccao/{{ n.tema }}/">{{ n.seccao }}</a></p>
+    <h3><a href="{{ root }}{{ n.url }}">{{ n.titulo }}</a></h3>
+    {% if tamanho != 'pequeno' %}<p class="resumo">{{ n.resumo }}</p>{% endif %}
+    <p class="meta"><time datetime="{{ n.iso }}">{{ n.data_curta }}</time><span>{{ n.leitura }} min de leitura</span></p>
+  </div>
+</article>
+{%- endmacro %}
+
+{% macro medidor(f, grande=False) -%}
+<span class="medidor{% if grande %} medidor-grande{% endif %}" style="--pct: {{ f.pct }}; --nivel: {{ f.cor }}" role="img" aria-label="Gravidade {{ f.severidade | lower }}, {{ f.nota }} em 10">
+  <b>{{ f.nota }}</b><small>em 10</small>
+</span>
+{%- endmacro %}
+
+{% macro partilha(titulo, url) -%}
+<div class="partilha">
+  <a class="botao botao-wa" href="https://wa.me/?text={{ (titulo ~ ' ' ~ url) | urlencode }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8.2 19z"/><path d="M9 9.5c.3 2.5 2.5 4.7 5 5l1.2-1.2-1.8-1-1 .8c-.9-.4-1.6-1.1-2-2l.8-1-1-1.8z" class="cheio"/></svg>
+    Partilhar no WhatsApp
+  </a>
+  <button class="botao botao-sec" type="button" data-copiar="{{ url }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>
+    <span>Copiar link</span>
+  </button>
+</div>
+{%- endmacro %}
+
+{% macro canal(site) -%}
+{% if site.canal_whatsapp %}
+<aside class="canal">
+  <div>
+    <h2>Receba as notícias no WhatsApp</h2>
+    <p>Seis edições por dia no Canal do noticias.semwhere, com o essencial em poucos segundos.</p>
+  </div>
+  <a class="botao botao-wa" href="{{ site.canal_whatsapp }}">Seguir o Canal</a>
+</aside>
+{% endif %}
+{%- endmacro %}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>{{ site.nome }}</title>
+  <link>{{ base }}</link>
+  <description>{{ site.descricao }}</description>
+  <language>pt</language>
+  {% for it in itens %}
+  <item>
+    <title>{{ it.titulo or (it.nome ~ ' (' ~ it.codigo ~ ')') }}</title>
+    <link>{{ base }}{{ it.url }}</link>
+    <guid>{{ base }}{{ it.url }}</guid>
+    <pubDate>{{ it.rfc822 }}</pubDate>
+    <description>{{ it.resumo }}</description>
+  </item>
+  {% endfor %}
+</channel>
+</rss>

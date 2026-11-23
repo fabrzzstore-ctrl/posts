@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% from "macros.html" import canal, partilha, medidor %}
+{% set menu = 'fichas' %}
+{% block titulo %}{{ it.nome }} ({{ it.codigo }}): ficha da falha | {{ site.nome }}{% endblock %}
+{% block descricao %}{{ it.resumo }}{% endblock %}
+{% block og_tipo %}article{% endblock %}
+{% block conteudo %}
+<article class="artigo ficha" style="--nivel: {{ it.cor }}">
+  <header class="ficha-cabeca">
+    <div class="wrap ficha-cabeca-in">
+      <div>
+        <p class="ficha-tipo"><a href="{{ root }}fichas/">Fichas das falhas</a> / {{ it.categoria }}</p>
+        <h1>{{ it.nome }}</h1>
+        <p class="ficha-codigo">{{ it.codigo }}</p>
+        <p class="artigo-resumo">{{ it.resumo }}</p>
+        <p class="meta"><span>Actualizada a {{ it.data_pt }}</span></p>
+      </div>
+      <div class="ficha-gravidade">
+        {{ medidor(it, grande=True) }}
+        <p>Gravidade <strong>{{ it.severidade | lower }}</strong></p>
+      </div>
+    </div>
+  </header>
+  <div class="wrap artigo-grelha">
+    <div class="artigo-principal">
+      <dl class="ficha-tabela">
+        {% for r in it.linhas %}<div><dt>{{ r.rotulo }}</dt><dd>{{ r.texto }}</dd></div>{% endfor %}
+      </dl>
+      <aside class="caixa">
+        <h2>O que fazer</h2>
+        <p>{{ it.acao }}</p>
+      </aside>
+      {% if it.corpo_html %}<div class="corpo">{{ it.corpo_html | safe }}</div>{% endif %}
+      {% if noticia %}
+      <a class="noticia-ligada" href="{{ root }}{{ noticia.url }}">
+        <span>Notícia relacionada</span>
+        <strong>{{ noticia.titulo }}</strong>
+      </a>
+      {% endif %}
+      {% if it.fontes %}
+      <section class="fontes">
+        <h2>Fontes</h2>
+        <ul>{% for f in it.fontes %}<li><a href="{{ f.url }}" rel="noopener"><span>{{ f.dominio }}</span>{{ f.nome.split(': ', 1)[-1] }}</a></li>{% endfor %}</ul>
+      </section>
+      {% endif %}
+      {{ partilha('Ficha da falha ' ~ it.nome ~ ' (' ~ it.codigo ~ ')', site.url|trim('/') ~ '/' ~ it.url) }}
+      {{ canal(site) }}
+    </div>
+  </div>
+</article>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1200px;height:630px;background:#0e1116;color:#f2f4f7;font-family:'Inter',sans-serif;display:flex;padding:56px 60px;gap:48px}
+.txt{flex:1;display:flex;flex-direction:column}
+.marca{font-family:'Caladea',serif;font-weight:700;font-size:34px;padding-bottom:18px;border-bottom:2px solid #f2f4f7}
+.marca span{color:#d63c3c}
+.tag{align-self:flex-start;margin-top:34px;background:{{ it.cor }};color:#fff;font-weight:700;font-size:20px;letter-spacing:3px;padding:9px 16px;text-transform:uppercase}
+h1{font-family:'Caladea',serif;font-weight:700;font-size:58px;line-height:1.08;margin-top:22px}
+.cve{font-size:28px;color:#c9cfd8;margin-top:12px}
+.rule{width:90px;height:6px;background:{{ it.cor }};margin-top:auto}
+.arte{width:400px;display:flex;align-items:center;background:#151922;border:1px solid #232833}
+.arte svg{width:100%}
+</style></head><body>
+<div class="txt">
+  <div class="marca">noticias<span>.</span>semwhere</div>
+  <div class="tag">{{ it.rotulo }}</div>
+  <h1>{{ it.titulo or it.nome }}</h1>
+  {% if it.codigo %}<div class="cve">{{ it.codigo }} · {{ it.severidade }} {{ it.nota }}/10</div>{% endif %}
+  <div class="rule"></div>
+</div>
+<div class="arte">{{ it.arte | safe }}</div>
+</body></html>

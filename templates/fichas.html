@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "macros.html" import medidor %}
+{% set menu = 'fichas' %}
+{% block titulo %}Fichas das falhas | {{ site.nome }}{% endblock %}
+{% block descricao %}As falhas de segurança mais graves, explicadas numa ficha: o que são, quem afectam e o que fazer.{% endblock %}
+{% block conteudo %}
+<div class="wrap">
+  <header class="cabeca-pagina">
+    <h1>Fichas das falhas</h1>
+    <p>Quando surge uma falha de segurança grave, juntamos numa ficha o essencial: quando foi revelada, onde está, o que permite fazer, quem está em risco e se já existe correcção.</p>
+  </header>
+  <div class="fichas-grelha fichas-pagina">
+    {% for f in itens %}
+    <a class="ficha-cartao" href="{{ root }}{{ f.url }}" style="--nivel: {{ f.cor }}">
+      {{ medidor(f) }}
+      <span class="ficha-txt">
+        <strong>{{ f.nome }}</strong>
+        <span class="ficha-cve">{{ f.codigo }}, actualizada a {{ f.data_curta }}</span>
+        <span class="ficha-resumo">{{ f.resumo }}</span>
+      </span>
+    </a>
+    {% else %}<p class="vazio">Ainda não há fichas publicadas.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

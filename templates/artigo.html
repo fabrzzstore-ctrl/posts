@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% from "macros.html" import cartao, canal, partilha, medidor, etiqueta %}
+{% set menu = 'noticias' %}
+{% block titulo %}{{ it.titulo }} | {{ site.nome }}{% endblock %}
+{% block descricao %}{{ it.resumo }}{% endblock %}
+{% block og_tipo %}article{% endblock %}
+{% block conteudo %}
+<div class="progresso" style="--nivel: {{ it.cor }}" aria-hidden="true"><i></i></div>
+<article class="artigo" style="--nivel: {{ it.cor }}">
+  <header class="wrap artigo-cabeca">
+    <p class="cartao-topo">{{ etiqueta(it) }}<a class="seccao" href="{{ root }}seccao/{{ it.tema }}/">{{ it.seccao }}</a></p>
+    <h1>{{ it.titulo }}</h1>
+    <p class="artigo-resumo">{{ it.resumo }}</p>
+    <p class="meta"><time datetime="{{ it.iso }}">{{ it.data_pt }}{% if it.hora %}, {{ it.hora }}{% endif %}</time><span>{{ it.leitura }} min de leitura</span></p>
+  </header>
+  <figure class="wrap artigo-arte"><div class="painel" aria-hidden="true">{{ it.arte | safe }}</div></figure>
+
+  <div class="wrap artigo-grelha">
+    <div class="artigo-principal">
+      <div class="corpo">{{ it.corpo_html | safe }}</div>
+
+      <aside class="caixa">
+        <h2>{{ it.caixa | capitalize }}</h2>
+        <p>{{ it.acao }}</p>
+      </aside>
+
+      {% if ficha %}
+      <a class="ficha-cartao ficha-no-artigo" href="{{ root }}{{ ficha.url }}" style="--nivel: {{ ficha.cor }}">
+        {{ medidor(ficha) }}
+        <span class="ficha-txt">
+          <span class="ficha-cve">Ficha da falha</span>
+          <strong>{{ ficha.nome }}</strong>
+          <span class="ficha-resumo">{{ ficha.codigo }}: o essencial numa página, com quem está em risco e o estado da correcção.</span>
+        </span>
+      </a>
+      {% endif %}
+
+      {% if it.fontes %}
+      <section class="fontes">
+        <h2>Fontes</h2>
+        <ul>{% for f in it.fontes %}<li><a href="{{ f.url }}" rel="noopener"><span>{{ f.dominio }}</span>{{ f.nome.split(': ', 1)[-1] }}</a></li>{% endfor %}</ul>
+      </section>
+      {% endif %}
+
+      {{ partilha(it.titulo, site.url|trim('/') ~ '/' ~ it.url) }}
+      {{ canal(site) }}
+    </div>
+  </div>
+</article>
+
+{% if relacionados %}
+<section class="wrap bloco relacionados" aria-labelledby="t-rel">
+  <div class="bloco-cabeca"><h2 id="t-rel">Leia também</h2></div>
+  <div class="grelha">{% for n in relacionados %}{{ cartao(n, root) }}{% endfor %}</div>
+</section>
+{% endif %}
+{% endblock %}
