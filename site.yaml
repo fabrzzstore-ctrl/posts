@@ -10,3 +10,5 @@ caminho_base: /posts/
 dominio: ""
 # Link de convite do Canal do WhatsApp (deixar vazio para esconder os botões).
 canal_whatsapp: "https://whatsapp.com/channel/0029VbDjjAz3GJOy39Rcn327"
+# Base de dados do Notion com a fila de publicação (ver notion_sync.py).
+notion_db: 421238652a1881198d9ccfa06d5d5402
