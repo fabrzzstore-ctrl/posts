@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "macros.html" import ataque_cartao, canal %}
+{% set menu = 'ataques' %}
+{% block titulo %}Ataques em curso | {{ site.nome }}{% endblock %}
+{% block descricao %}Empresas e instituições a recuperar de ataques informáticos: há quanto tempo dura cada ataque, quem o reivindicou e o ponto da situação.{% endblock %}
+{% block conteudo %}
+<div class="wrap">
+  <header class="cabeca-pagina">
+    <h1>Ataques em curso</h1>
+    <p>Empresas e instituições que estão a recuperar de ataques informáticos, há quanto tempo dura cada ataque, quem o reivindicou e o ponto da situação. Actualizado em cada edição do Canal.</p>
+    {% if actualizado %}<p class="ataques-actualizado">Última actualização: {{ actualizado }}</p>{% endif %}
+  </header>
+
+  {% if ataques %}
+  <section class="ataques-resumo" aria-label="Resumo">
+    <div class="estado-em-curso"><p>Em curso</p><b>{{ resumo.em_curso }}</b></div>
+    <div class="estado-recuperacao"><p>Em recuperação</p><b>{{ resumo.recuperacao }}</b></div>
+    <div class="estado-resolvido"><p>Resolvidos</p><b>{{ resumo.resolvidos }}</b></div>
+    <div><p>Duração média</p><b>{{ resumo.media }} {{ 'dia' if resumo.media == 1 else 'dias' }}</b></div>
+  </section>
+
+  <div class="filtros ataques-filtros" role="group" aria-label="Filtrar por estado">
+    <button type="button" data-filtro="todas" aria-pressed="true">Todos</button>
+    <button type="button" data-filtro="em-curso" aria-pressed="false">Em curso</button>
+    <button type="button" data-filtro="recuperacao" aria-pressed="false">Em recuperação</button>
+    <button type="button" data-filtro="resolvido" aria-pressed="false">Resolvidos</button>
+    <button type="button" data-filtro="africa" aria-pressed="false">Angola e África</button>
+  </div>
+
+  <section class="ataques-lista" aria-label="Lista de ataques">
+    {% for a in ataques %}{{ ataque_cartao(a, root) }}{% endfor %}
+    <p class="vazio" data-filtro-vazio hidden>Não há ataques acompanhados nesta categoria neste momento.</p>
+  </section>
+  {% else %}
+  <p class="vazio">Não há ataques em acompanhamento neste momento.</p>
+  {% endif %}
+
+  <section class="ataques-nota">
+    <h2>Como lemos estes dados</h2>
+    <p>Só entram ataques noticiados por meios credíveis ou confirmados pela organização atingida. «Reivindicado» quer dizer que um grupo diz ter feito o ataque, o que não é prova. A duração conta-se desde a detecção até a organização anunciar os serviços repostos. Os casos resolvidos ficam aqui 30 dias. Nunca publicamos ligações para sites de grupos criminosos nem para dados roubados.</p>
+  </section>
+  {{ canal(site) }}
+</div>
+{% endblock %}

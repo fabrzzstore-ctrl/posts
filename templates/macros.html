@@ -44,3 +44,24 @@
 </aside>
 {% endif %}
 {%- endmacro %}
+
+{% macro ataque_cartao(a, root) -%}
+<article class="ataque estado-{{ a.estado }}" data-tema="{{ a.filtros }}">
+  <div class="ataque-txt">
+    <p class="ataque-topo"><span class="estado"><i aria-hidden="true"></i>{{ a.estado_rotulo }}</span><span class="ataque-onde">{{ a.sector }} · {{ a.pais }}</span></p>
+    <h2>{% if a.artigos %}<a href="{{ root }}{{ a.artigos[0].url }}">{{ a.empresa }}</a>{% else %}{{ a.empresa }}{% endif %}</h2>
+    <p class="ataque-resumo">{{ a.resumo }}</p>
+    <p class="ataque-meta">
+      {%- if a.artigos %}<span>{{ a.artigos|length }} {{ 'notícia' if a.artigos|length == 1 else 'notícias' }} no blog, a última a {{ a.artigos[0].data_curta }}</span>{% endif -%}
+      {%- if a.fontes %}<span>Fontes: {% for fonte in a.fontes %}<a href="{{ fonte.url }}" rel="noopener">{{ fonte.dominio }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif -%}
+    </p>
+  </div>
+  <dl class="ataque-dados">
+    <div><dt>Duração</dt><dd class="ataque-duracao">{{ a.duracao }}</dd></div>
+    <div><dt>Detectado</dt><dd><time datetime="{{ a.detectado_iso }}">{{ a.detectado_curto }}</time></dd></div>
+    <div><dt>Tipo</dt><dd>{{ a.tipo or 'Por apurar' }}</dd></div>
+    <div><dt>Autores</dt><dd>{{ a.autores }}</dd></div>
+    <div><dt>Confirmado</dt><dd>{{ a.confirmado_txt }}</dd></div>
+  </dl>
+</article>
+{%- endmacro %}
