@@ -2,7 +2,7 @@
 # Actualizado em cada edição pelas tarefas agendadas (página "dados/ataques" no Notion).
 # Regras: só ataques noticiados por meios credíveis ou confirmados pela empresa; nunca links
 # para sites de grupos criminosos nem para dados roubados. Os resolvidos saem 30 dias depois.
-actualizado: 2026-11-23 19:45
+actualizado: 2026-11-24 19:58
 ataques:
   - id: next-fornecedor
     empresa: Next (fornecedor)
@@ -89,14 +89,17 @@ ataques:
     pais: União Europeia
     regiao: europa
     tipo: Intrusão nos sistemas internos
-    detectado: 2026-11-19
+    detectado: 2026-10-22
     resolvido:
     estado: em-curso
     autores: Desconhecidos
     confirmado: sim
-    resumo: "Os sistemas de recursos humanos, salários e reembolsos médicos dos funcionários foram desligados. A Comissão ainda não sabe se houve roubo de dados pessoais."
-    noticias: []
+    resumo: "O ataque, detectado em Outubro, expôs nomes e e-mails de utilizadores da EU Academy, que foi suspensa. A Comissão ainda investiga a dimensão da fuga e não diz se o ataque acabou."
+    noticias:
+      - comissao-europeia-confirma-roubo-de-dados
     fontes:
+      - nome: "SecurityWeek: European Commission Uncovers Data Breach in Cyberattack Investigation"
+        url: https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/
       - nome: "Euronews: EU Commission hit by large-scale cyberattack with data leakage unknown"
         url: https://www.euronews.com/2026/11/19/eu-commission-hit-by-large-scale-cyberattack-with-data-leakage-unknown
       - nome: "Techzine: Cyberattack shuts down European Commission's HR systems"
