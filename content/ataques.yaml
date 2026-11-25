@@ -2,8 +2,26 @@
 # Actualizado em cada edição pelas tarefas agendadas (página "dados/ataques" no Notion).
 # Regras: só ataques noticiados por meios credíveis ou confirmados pela empresa; nunca links
 # para sites de grupos criminosos nem para dados roubados. Os resolvidos saem 30 dias depois.
-actualizado: 2026-11-24 19:58
+actualizado: 2026-11-25 19:49
 ataques:
+  - id: cia-agencias-eua
+    empresa: CIA e outras agências de informações dos EUA
+    sector: Serviços de informações
+    pais: Estados Unidos
+    regiao: americas
+    tipo: Intrusão num sistema de análise de informação pública
+    detectado: 2026-11-24
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: nao
+    resumo: "Um hacker entrou num sistema usado pela CIA, pela NGA e pelo ODNI e expôs dados não secretos. Os investigadores suspeitam da ferramenta de IA Artex, criada na China."
+    noticias:
+      - hackers-atingem-agencias-secretas-dos-eua
+    fontes:
+      - nome: "Outlook India: CIA hacked, US spy agencies face AI cyberattack as Artex tool raises China fears"
+        url: https://www.outlookindia.com/international/us-cyberattack-2026-cia-hacked-us-intelligence-agencies-data-breach-nga-odni-artex-ai-hacking-tool-china-cyber-threat
+
   - id: next-fornecedor
     empresa: Next (fornecedor)
     sector: Comércio
