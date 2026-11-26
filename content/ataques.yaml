@@ -2,8 +2,28 @@
 # Actualizado em cada edição pelas tarefas agendadas (página "dados/ataques" no Notion).
 # Regras: só ataques noticiados por meios credíveis ou confirmados pela empresa; nunca links
 # para sites de grupos criminosos nem para dados roubados. Os resolvidos saem 30 dias depois.
-actualizado: 2026-11-25 19:49
+actualizado: 2026-11-26 08:00
 ataques:
+  - id: 1password
+    empresa: 1Password
+    sector: Tecnologia
+    pais: Canadá
+    regiao: americas
+    tipo: Intrusão pela conta de um funcionário
+    detectado: 2026-11-19
+    resolvido:
+    estado: recuperacao
+    autores: Desconhecidos
+    confirmado: sim
+    resumo: "Um hacker usou a conta GitHub de um funcionário, copiou código e levou nomes e e-mails de alguns clientes. Os cofres de senhas não foram tocados e a empresa já repôs versões limpas dos serviços."
+    noticias:
+      - ataque-a-1password-expoe-nomes-e-e-mails
+    fontes:
+      - nome: "TechCrunch: 1Password said hackers broke into its internal systems, but customer passwords are safe"
+        url: https://techcrunch.com/2026/11/25/1password-said-hackers-broke-into-its-internal-systems-but-customer-passwords-are-safe/
+      - nome: "The Hacker News: 1Password Hacked, Customer Data and Source Code Stolen in GitHub Account Breach"
+        url: https://thehackernews.com/2026/11/1password-hacked-customer-data-and.html
+
   - id: cia-agencias-eua
     empresa: CIA e outras agências de informações dos EUA
     sector: Serviços de informações
