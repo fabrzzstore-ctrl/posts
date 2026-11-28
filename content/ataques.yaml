@@ -2,8 +2,28 @@
 # Actualizado em cada edição pelas tarefas agendadas (página "dados/ataques" no Notion).
 # Regras: só ataques noticiados por meios credíveis ou confirmados pela empresa; nunca links
 # para sites de grupos criminosos nem para dados roubados. Os resolvidos saem 30 dias depois.
-actualizado: 2026-11-26 08:00
+actualizado: 2026-11-28 19:55
 ataques:
+  - id: forca-aerea-eua-cloud-one
+    empresa: Força Aérea dos EUA (Cloud One)
+    sector: Defesa
+    pais: Estados Unidos
+    regiao: americas
+    tipo: Intrusão através de uma falha num programa
+    detectado: 2026-11-27
+    resolvido:
+    estado: em-curso
+    autores: Desconhecidos
+    confirmado: nao
+    resumo: "Hackers usaram uma falha para chegar ao painel de controlo da Cloud One, a nuvem da Força Aérea onde correm sistemas de radar e de armamento. Não se sabe quem foi nem se levaram dados."
+    noticias:
+      - hackers-entram-na-nuvem-da-forca-aerea
+    fontes:
+      - nome: "Fortune: After the 'Black October' hacking spree, another wave of cyberattacks tests the West's digital foundations"
+        url: https://fortune.com/2026/11/28/cyberattacks-air-force-cloud-one-cia-director-national-intelligence-dni-nga-black-october-hackers/
+      - nome: "ClickOnDetroit: Hackers got into the Air Force cloud computing system but critical parts not impacted"
+        url: https://www.clickondetroit.com/news/politics/2026/11/28/hackers-got-into-the-air-force-cloud-computing-system-but-critical-parts-not-impacted/
+
   - id: 1password
     empresa: 1Password
     sector: Tecnologia
